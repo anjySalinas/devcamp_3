@@ -4,8 +4,9 @@ const dotenv = require('dotenv')
 const colors=require('colors')
 //dependencias de rutas:
 const bootcampRoutes=require('./routes/bootcampRoutes')
-//const coursesRoutes=require('./routes/coursesRoutes')
-//const reviewsRoutes=require('./routes/reviewsRoutes')
+const coursesRoutes=require('./routes/coursesRoutes')
+const reviewsRoutes=require('./routes/reviewsRoutes')
+const usersRoutes=require('./routes/usersRoutes')
 
 //DEPENDENCIA PARA CONEXION A DB 
 const conectDB=require('./config/db')
@@ -24,8 +25,10 @@ app.use(express.json())
 
 //vincular las rutas de bootcamps
 app.use('/api/v1/devcamp/bootcamps',bootcampRoutes)
-//app.use('/api/v1/devcamp/courses',coursesRoutes)
-//app.use('/api/v1/devcamp/reviews',reviewsRoutes)
+app.use('/api/v1/devcamp/courses',coursesRoutes)
+app.use('/api/v1/devcamp/reviews',reviewsRoutes)
+app.use('/api/v1/devcamp/users',usersRoutes)
+
 
 //primera prueba de url del servidor
 app.get('/prueba', function(request, response){
@@ -39,57 +42,6 @@ app.get('/prueba', function(request, response){
 
 //evidencia:uris para reviews
 //traer todos los reviews
-app.get('/api/v1/devcamp/reviews',
-(request,response)=>{
-            response
-                    .status(200)
-                    .json({
-                        "success": true,
-                        "msg" : "mostrar todos los reviews"    
-                    })
-})
-//traer reviews por id
-app.get('/api/v1/devcamp/reviews/:id',
-(request,response)=>{
-            response
-                    .status(200)
-                    .json({
-                        "success": true,
-                        "msg" : `Seleccionando reviews con id ${request.params.id}`  
-                    })
-})
-//crear reviews
-app.post('/api/v1/devcamp/reviews',
-(request,response)=>{
-            response
-                    .status(201)
-                    .json({
-                        "success": true,
-                        "msg" : "crear reviews"    
-                    })
-})
-//actualizar reviews por id
-app.put('/api/v1/devcamp/reviews/:id',
-(request,response)=>{
-            response
-                    .status(200)
-                    .json({
-                        "success": true,
-                        "msg" : `Actualizando  reviews con id ${request.params.id}`  
-                    })
-})
-//eliminar reviews por id
-app.delete('/api/v1/devcamp/reviews/:id',
-(request,response)=>{
-            response
-                    .status(200)
-                    .json({
-                        "success": true,
-                        "msg" : `Eliminando reviews con id ${request.params.id}`  
-                    })
-})
-
-
 
 
 //evidencia:uris para users

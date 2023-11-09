@@ -103,7 +103,6 @@ async (request,response)=>{
                     msg:error.message
                 })
     }
-    //crear el nuevo bootcamp
     
 })
 //actualizar bootcamp por id

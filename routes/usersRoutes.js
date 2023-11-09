@@ -1,23 +1,23 @@
 const express = require('express')
 const mongoose=require('mongoose')
-const reviewModel=require('../models/ReviewsModels.js')
+const usersModel=require('../models/UsersModels.js')
 const router = express.Router()
 
-//traer todos los reviews
+//traer todos los users
 router.get('/' , 
         async(request , response)=> { 
 
             try {
-               //traer todos loos reviews
-                const reviews = 
-                await reviewModel.find()
+               //traer todos loos users
+                const users = 
+                await usersModel.find()
 
-                if(reviews.length === 0){
+                if(users.length === 0){
                     return response.
                         status(404).
                         json({
                             success: false,
-                            msg: "no hay reviews disponible"
+                            msg: "no hay users disponible"
                         })
                 }
 
@@ -25,7 +25,7 @@ router.get('/' ,
                 .status(200)
                 .json({
                         "success" : true,
-                        "results":reviews
+                        "results":users
                     })
 
             } catch (error) {
@@ -38,13 +38,13 @@ router.get('/' ,
             }
         })
 
-        //traer review por id
+ //traer user por id
 
 router.get('/:id',
 async(request,response)=>{
     try {
-        const reviewId= request.params.id
-        if(!mongoose.Types.ObjectId.isValid(reviewId)){
+        const userId= request.params.id
+        if(!mongoose.Types.ObjectId.isValid(userId)){
             response
             .status(500)
             .json({
@@ -53,15 +53,15 @@ async(request,response)=>{
             })
         }else{ 
         
-        const selected_reviews =
-        await reviewModel.findById(reviewId)
+        const selected_users =
+        await usersModel.findById(userId)
 
-        if (!selected_reviews) {
+        if (!selected_users) {
             response
                 .status(404)
                 .json({
                     success:false,
-                    msg:`No se halló el review con id:${reviewId} `
+                    msg:`No se halló el user con id:${userId} `
             })
         
 
@@ -71,32 +71,30 @@ async(request,response)=>{
                     .status(200)
                     .json({
                         "success": true,
-                        "results": selected_reviews
-                    })
+                        "results": selected_users
+                })
         } 
     }
     } catch (error) {
         response.status(500)
         .json({
-            
+        
             success: false,
             msg:error.message
         })
     }     
 })
-
-
-//crear reviews
+//crear user
 router.post('/',
 async (request,response)=>{
     try{
-            const reviews= await reviewModel.
+            const user= await usersModel.
             create(request.body)
             response
             .status(201)
             .json({
                 "success": true,
-                "data" : reviews
+                "data" : user
             })
         } catch (error) {
                 response.status(500)
@@ -107,14 +105,14 @@ async (request,response)=>{
     }
     
 })
-//actualizar reviws por id
+//actualizar users por id
 router.put('/:id',
 async(request,response)=>{
 
     try {
 
-        const reviewId = request.params.id
-        if(!mongoose.Types.ObjectId.isValid(reviewId)){
+        const userId = request.params.id
+        if(!mongoose.Types.ObjectId.isValid(userId)){
             response 
             .status(500)
             .json({
@@ -123,26 +121,26 @@ async(request,response)=>{
         })
     }else{
 
-        const selected_reviews = await reviewModel.findByIdAndUpdate(
-            reviewId,
+        const selected_users = await usersModel.findByIdAndUpdate(
+            userId,
             request.body,
             {
                 new:true
             }
         )
-        if(!selected_reviews){
+        if(!selected_users){
                     response
                             .status(404)
                             .json({
                                 success: true,
-                                msg: `No se hallo el review con id: ${reviewId}`
+                                msg: `No se hallo el review con id: ${userId}`
                             })
                         } else {
                             response 
                             .status(200)
                             .json({
                                 "success" : true,
-                                "results" : selected_reviews
+                                "results" : selected_users
                             })
         } 
 
@@ -157,13 +155,12 @@ async(request,response)=>{
                 })
             }
         })
-
-//eliminar reviws por id
+//eliminar users por id
 router.delete('/:id',
 async(request,response)=>{
     try {
-        const reviewId= request.params.id
-        if(!mongoose.Types.ObjectId.isValid(reviewId)){
+        const userId= request.params.id
+        if(!mongoose.Types.ObjectId.isValid(userId)){
             response
             .status(500)
             .json({
@@ -172,16 +169,16 @@ async(request,response)=>{
             })
         }else{ 
         
-        const selected_reviews =
-        await reviewModel.
-        findByIdAndDelete(reviewId)
+        const selected_users =
+        await usersModel.
+        findByIdAndDelete(userId)
 
-        if (!selected_reviews) {
+        if (!selected_users) {
             response
                 .status(404)
                 .json({
                     success:false,
-                    msg:`No se halló el review con id:${reviewId} `
+                    msg:`No se halló el review con id:${userId} `
             })
         
 
@@ -204,7 +201,5 @@ async(request,response)=>{
         })
     }     
 })
-
-
 
 module.exports=router
